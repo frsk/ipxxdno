@@ -3,6 +3,8 @@
 from flask import make_response, Flask, url_for, request
 from time import time
 
+import ipaddress
+
 app = Flask(__name__)
 
 def _get_data(request):
@@ -10,12 +12,18 @@ def _get_data(request):
   if 'X-Real-Ip' in request.headers:
     _result['ip'] = request.headers['X-Real-Ip']
   else:
-    _result['ip'] = 'N/A'
+    remote_addr = ipaddress.IPv6Address(request.remote_addr)
+    if remote_addr.ipv4_mapped:
+      _result['ip'] = remote_addr.ipv4_mapped.compressed
+    else:
+      _result['ip'] = remote_addr.compressed
+
   if 'User-Agent' in request.headers.keys():
     _result['user-agent'] = request.headers['User-Agent']
   else:
     _result['user-agent'] = 'Unknown User-Agent'
   _result['timestamp'] = ts = int(time())
+
   return _result
 
 @app.route("/health")
