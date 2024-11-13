@@ -8,8 +8,6 @@ COPY gunicorn_config.py .
 COPY ipxxdno.py .
 COPY requirements.txt .
 
-RUN pip3 install --upgrade pip
-
 RUN pip3 install -r requirements.txt
 
 USER nobody
