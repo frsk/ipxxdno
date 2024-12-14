@@ -13,4 +13,6 @@ COPY ipxxdno.py .
 
 USER nobody
 
+ENV IP_HEADER False
+
 CMD ["gunicorn", "--config", "gunicorn_config.py", "-b", "[::]:8080", "ipxxdno:app"]

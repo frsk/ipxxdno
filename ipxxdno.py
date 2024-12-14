@@ -3,14 +3,17 @@
 from flask import make_response, Flask, url_for, request
 from time import time
 
+from os import environ
+
 import ipaddress
 
 app = Flask(__name__)
 
 def _get_data(request):
   _result = {}
-  if 'X-Real-Ip' in request.headers:
-    _result['ip'] = request.headers['X-Real-Ip']
+  if environ['IP_HEADER'] != "False":
+    if environ['IP_HEADER'] in request.headers:
+        _result['ip'] = request.headers[environ['IP_HEADER']]
   else:
     remote_addr = ipaddress.IPv6Address(request.remote_addr)
     if remote_addr.ipv4_mapped:
