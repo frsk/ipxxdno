@@ -32,6 +32,9 @@ def health():
 
 @app.route("/")
 def index():
+    if 'Accept' in request.headers.keys():
+        if request.headers['Accept'] == 'application/json':
+            return json()
     response = make_response("{ip}\n{user-agent}\n{timestamp}\n".format(**_get_data(request)))
     response.headers['Content-Type'] = 'text/plain'
     return response
