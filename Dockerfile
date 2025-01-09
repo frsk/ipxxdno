@@ -1,6 +1,6 @@
 FROM python:3-alpine
 
-HEALTHCHECK --interval=30s --timeout=5s --start-interval=2s --start-period=10s \
+HEALTHCHECK --interval=30s --timeout=5s --start-interval=2s --start-period=30s \
     CMD wget -qO /dev/null http://localhost:8080/health
 
 EXPOSE 8080
